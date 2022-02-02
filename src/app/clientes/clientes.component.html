@@ -1,3 +1,4 @@
+<detalle-cliente *ngIf="clienteSeleccionado" [cliente]="clienteSeleccionado"></detalle-cliente>
 <div class="card border-primary mt-5 main-content">
   <div class="card-header">Clientes</div>
   <div class="card-body text-primary">
@@ -22,14 +23,20 @@
       </thead>
       <tbody>
         <tr *ngFor="let cliente of clientes">
-          <td>{{cliente.id}}</td>
+          <td>
+            <img (click)="abrirModal(cliente)" *ngIf="cliente?.foto"
+              src="http://localhost:8080/api/uploads/img/{{cliente.foto}}" alt="{{cliente.foto}}"
+              class="img-thumbnail rounded" style="width: 64px; cursor: pointer;">
+            <img (click)="abrirModal(cliente)" *ngIf="!cliente?.foto"
+              src="http://localhost:8080/images/not_profile_user_icon.png" alt="Sin foto" class="img-thumbnail rounded"
+              style="width: 64px; cursor: pointer;">
           <td>{{cliente.nombre}}</td>
           <td>{{cliente.apellido | uppercase}}</td>
           <td>{{cliente.createAt}}</td>
           <td>{{cliente.email}}</td>
           <td>
             <button type="button" name="editar" [routerLink]="['/clientes/form', cliente.id]"
-              class="btn btn-primary">editar</button>
+              class="btn btn-primary btn-sm">editar</button>
           </td>
           <td>
             <button type="button" name="eliminar" (click)="delete(cliente)"
